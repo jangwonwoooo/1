@@ -70,9 +70,6 @@ section.first{border-top:0;padding-top:.4rem}
 .pill{display:inline-block;font-size:.72rem;font-weight:700;padding:.05rem .45rem;border-radius:6px;background:var(--surface)}
 .good{color:var(--fe)} .mid{color:var(--warn)} .hard{color:var(--ce)}
 
-details.ask{background:var(--warn-bg);border-radius:12px;padding:.8rem 1rem}
-details.ask summary{cursor:pointer;font-weight:700;color:var(--warn);font-size:.9rem}
-details.ask ol{margin:.6rem 0 0;padding-left:1.2rem;display:grid;gap:.35rem;font-size:.86rem}
 
 /* 표 */
 .tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
@@ -85,6 +82,34 @@ table.cmp tbody th{font-weight:500;color:var(--muted);width:130px;white-space:no
 table.cmp tr.group th{background:var(--soft);color:var(--ink);font-family:var(--f-display);font-weight:700;font-size:.86rem}
 table.cmp tr:last-child td,table.cmp tr:last-child th{border-bottom:0}
 .best{display:inline-block;font-size:.7rem;font-weight:700;padding:.05rem .45rem;border-radius:6px;background:var(--accent-bg);color:var(--accent);margin-left:.3rem;white-space:nowrap}
+.best.hi{background:var(--ce-bg);color:var(--ce)}
+
+/* 카드 사진 */
+.card{overflow:hidden}
+.card img.ph{display:block;width:calc(100% + 2.2rem);max-width:calc(100% + 2.2rem);margin:-1.1rem -1.1rem 0;aspect-ratio:16/10;object-fit:cover}
+details.school > summary .sumhead{display:flex;align-items:center;gap:.8rem;min-width:0}
+details.school > summary img{width:72px;height:48px;object-fit:cover;border-radius:8px;flex:0 0 auto}
+
+/* 폰: 3곳 한 줄 요약 + 카드 옆으로 넘기기 */
+.glance{display:none}
+@media (max-width:700px){
+  .glance{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem}
+  .glance a{text-decoration:none;color:var(--ink);border-radius:12px;padding:.55rem .5rem;display:grid;gap:.1rem;border:1px solid;min-width:0}
+  .glance a.fe{background:var(--fe-bg);border-color:var(--fe-line)} .glance a.ce{background:var(--ce-bg);border-color:var(--ce-line)} .glance a.ev{background:var(--ev-bg);border-color:var(--ev-line)}
+  .glance .g-nm{font-family:var(--f-display);font-weight:700;font-size:.8rem}
+  .glance a.fe .g-nm{color:var(--fe)} .glance a.ce .g-nm{color:var(--ce)} .glance a.ev .g-nm{color:var(--ev)}
+  .glance .g-v{font-family:var(--f-display);font-weight:700;font-size:1.15rem}
+  .glance .g-s{font-size:.68rem;color:var(--muted);line-height:1.35}
+  .glance .best{margin:0;justify-self:start;font-size:.64rem}
+  .cards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:.7rem;padding-bottom:.4rem}
+  .cards .card{flex:0 0 86%;scroll-snap-align:start}
+  p.swipe{display:block}
+  table.cmp{min-width:560px;font-size:.8rem}
+  table.cmp th,table.cmp td{padding:.5rem .6rem}
+  table.cmp tbody th,table.cmp thead th:first-child{position:sticky;left:0;z-index:1;background:var(--surface);width:84px;white-space:normal}
+  table.cmp tr.group th{position:sticky;left:0}
+}
+.swipe{display:none;font-size:.75rem;color:var(--muted);text-align:right}
 
 /* 비용 */
 .cost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:.9rem}
@@ -191,8 +216,15 @@ footer{padding-block:1.6rem 0;color:var(--muted);font-size:.8rem}
 </div></nav>
 
 <section class="block first" id="summary" aria-label="요약">
+  <div class="glance" aria-label="3곳 총액 한눈에">
+    <a class="fe" href="#card-fe"><span class="g-nm">펠라 1</span><span class="g-v">482만</span><span class="best">최저</span><span class="g-s">외출 규칙 가장 엄격</span></a>
+    <a class="ce" href="#card-ce"><span class="g-nm">셀라 유니</span><span class="g-v">532만</span><span class="best">위치 편함</span><span class="g-s">쇼핑몰 도보 3분</span></a>
+    <a class="ev" href="#card-ev"><span class="g-nm">EV 메인</span><span class="g-v">544만</span><span class="best hi">최고가</span><span class="g-s">헬스장·시설 최고</span></a>
+  </div>
+  <p class="swipe">카드는 옆으로 넘겨 보세요 →</p>
   <div class="cards">
-    <article class="card fe">
+    <article class="card fe" id="card-fe">
+      <img class="ph" src="img/fella/main.jpg" alt="잉글리쉬펠라 1캠퍼스 수영장과 캠퍼스">
       <div class="nm">잉글리쉬펠라 1 <span class="badge">가장 저렴</span></div>
       <p class="one">리조트 같은 캠퍼스에 규칙은 가장 빡빡함. 단어시험 점수가 모자라면 주말 외출 불가.</p>
       <div class="total"><span class="lbl">2명 총액 (현지비 포함, 대략)</span><span class="v">482만 원</span></div>
@@ -204,8 +236,9 @@ footer{padding-block:1.6rem 0;color:var(--muted);font-size:.8rem}
         <dt>헬스장</dt><dd><span class="pill mid">보통</span> 2023 리노베이션</dd>
       </dl>
     </article>
-    <article class="card ce">
-      <div class="nm">셀라 유니</div>
+    <article class="card ce" id="card-ce">
+      <img class="ph" src="img/cella/main.jpg" alt="셀라 유니 캠퍼스 건물">
+      <div class="nm">셀라 유니 <span class="badge">위치 편함</span></div>
       <p class="one">쇼핑몰이 도보 3분. 06:50 아침수업부터 21시 단어시험까지 하루가 가장 김.</p>
       <div class="total"><span class="lbl">2명 총액 (현지비 포함, 대략)</span><span class="v">532만 원</span></div>
       <dl class="kv">
@@ -216,7 +249,8 @@ footer{padding-block:1.6rem 0;color:var(--muted);font-size:.8rem}
         <dt>헬스장</dt><dd><span class="pill hard">작음</span> 루프탑</dd>
       </dl>
     </article>
-    <article class="card ev">
+    <article class="card ev" id="card-ev">
+      <img class="ph" src="img/ev/main.jpg" alt="EV 메인 캠퍼스 건물과 수영장">
       <div class="nm">EV 메인 <span class="badge">시설 최고</span></div>
       <p class="one">2017년 신축에 가장 큰 캠퍼스. 헬스장·요가룸이 가장 좋고 가격도 가장 높음.</p>
       <div class="total"><span class="lbl">2명 총액 (현지비 포함, 대략)</span><span class="v">544만 원</span></div>
@@ -230,14 +264,6 @@ footer{padding-block:1.6rem 0;color:var(--muted);font-size:.8rem}
     </article>
   </div>
   <p class="note">금액은 필자닷컴 견적(2명, 유학원 할인 10% 반영) 기준이고, 1페소 = 22원으로 환산했습니다. 현지 납부액에는 퇴실 때 돌려받는 보증금이 들어 있습니다. 항공권, 보험, 용돈은 빠져 있습니다.</p>
-  <details class="ask">
-    <summary>아직 확인이 필요한 것 3가지</summary>
-    <ol>
-      <li>셀라 견적의 2인실은 1인 110만 원으로, 필자닷컴 학원 페이지(100만 원)보다 높습니다. 2027년 인상 전 가격으로 예약하면 1인 10만 원(2명 20만 원)이 줄어드는지 유학원에 물어보세요.</li>
-      <li>셀라의 금요일 외출 시간, 셀라·EV에서 단어시험 점수가 낮을 때 받는 벌칙은 자료에 없습니다.</li>
-      <li>필자닷컴 후기 게시판의 학생 후기는 몇 년 전 글이 대부분이라, 최근 방문기와 2026년 블로그 글만 넣었습니다.</li>
-    </ol>
-  </details>
 </section>
 
 <section class="block" id="table" aria-labelledby="tb-h">
@@ -249,21 +275,21 @@ footer{padding-block:1.6rem 0;color:var(--muted);font-size:.8rem}
       <tr class="group"><th colspan="4">수업</th></tr>
       <tr><th scope="row">과정</th><td>PIC-4</td><td>Sparta Power Speaking 1</td><td>Sparta Intensive ESL</td></tr>
       <tr><th scope="row">하루 수업</th><td>1:1 4 · 1:4 2 · 1:8 1 · 선택 1<br><span class="small muted">+ 자습·단어시험 3교시</span></td><td>1:1 4 · ESL그룹 3 · 대그룹 1<br><span class="small muted">+ 자습 2교시</span></td><td>1:1 4 · 소그룹 2 · 대그룹 2<br><span class="small muted">+ 단어·문장 수업, 야간 자습</span></td></tr>
-      <tr><th scope="row">1교시</th><td>50분</td><td>45분</td><td>45분</td></tr>
-      <tr><th scope="row">그룹 인원</th><td>4명 / 8명</td><td>자료 없음</td><td>최대 5명 / 8명</td></tr>
+      <tr><th scope="row">1교시</th><td>50분<span class="best">가장 김</span></td><td>45분</td><td>45분</td></tr>
+      <tr><th scope="row">그룹 인원</th><td>4명 / 8명</td><td>자료 없음</td><td>최대 5명 / 8명<span class="best">소수</span></td></tr>
       <tr class="group"><th colspan="4">비용 (2명 · 4주)</th></tr>
-      <tr><th scope="row">학비</th><td class="num">2,000,000원</td><td class="num">2,200,000원</td><td class="num">2,280,000원</td></tr>
-      <tr><th scope="row">2인실</th><td class="num">2,100,000원</td><td class="num">2,200,000원</td><td class="num">2,360,000원</td></tr>
-      <tr><th scope="row">출국 전 합계</th><td class="num"><b>3,890,000원</b><span class="best">최저</span></td><td class="num"><b>4,160,000원</b></td><td class="num"><b>4,376,000원</b></td></tr>
-      <tr><th scope="row">현지 납부</th><td class="num">42,400페소</td><td class="num">52,600페소</td><td class="num">48,400페소</td></tr>
+      <tr><th scope="row">학비</th><td class="num">2,000,000원<span class="best">최저</span></td><td class="num">2,200,000원</td><td class="num">2,280,000원<span class="best hi">최고</span></td></tr>
+      <tr><th scope="row">2인실</th><td class="num">2,100,000원<span class="best">최저</span></td><td class="num">2,200,000원</td><td class="num">2,360,000원<span class="best hi">최고</span></td></tr>
+      <tr><th scope="row">출국 전 합계</th><td class="num"><b>3,890,000원</b><span class="best">최저</span></td><td class="num"><b>4,160,000원</b></td><td class="num"><b>4,376,000원</b><span class="best hi">최고</span></td></tr>
+      <tr><th scope="row">현지 납부</th><td class="num">42,400페소<span class="best">최저</span></td><td class="num">52,600페소<span class="best hi">최고</span></td><td class="num">48,400페소</td></tr>
       <tr class="group"><th colspan="4">생활</th></tr>
       <tr><th scope="row">평일 외출</th><td>월~목 금지 (격주 수 17~22시)</td><td>평일 금지</td><td>월~목 금지</td></tr>
-      <tr><th scope="row">단어시험</th><td>매일 19:40, 4일 70개 미만이면 주말 외출 불가</td><td>매일 21:00</td><td>매일 아침 단어·저녁 문장 수업</td></tr>
-      <tr><th scope="row">헬스장</th><td>머신·프리웨이트·자전거</td><td>루프탑, 러닝머신·랙 위주</td><td>통창 헬스장 + 요가룸<span class="best">최고</span></td></tr>
-      <tr><th scope="row">수영장</th><td>캠퍼스 중앙</td><td>있음</td><td>있음</td></tr>
-      <tr><th scope="row">세탁</th><td>무료 셀프 세탁 24시간</td><td>1kg 50페소</td><td>5kg 150페소</td></tr>
-      <tr><th scope="row">한국인 비율</th><td>25%</td><td>약 20%</td><td>14%</td></tr>
-      <tr><th scope="row">주변</th><td>쇼핑몰 도보 5분</td><td>쇼핑몰 도보 3~5분</td><td>편의점 도보 10분</td></tr>
+      <tr><th scope="row">단어시험</th><td>매일 19:40, 4일 70개 미만이면 주말 외출 불가<span class="best hi">가장 엄격</span></td><td>매일 21:00<span class="best hi">하루 가장 김</span></td><td>매일 아침 단어·저녁 문장 수업</td></tr>
+      <tr><th scope="row">헬스장</th><td>머신·프리웨이트·자전거</td><td>루프탑, 러닝머신·랙 위주<span class="best hi">작음</span></td><td>통창 헬스장 + 요가룸<span class="best">최고</span></td></tr>
+      <tr><th scope="row">수영장</th><td>캠퍼스 중앙<span class="best">가장 큼</span></td><td>있음</td><td>있음</td></tr>
+      <tr><th scope="row">세탁</th><td>무료 셀프 세탁 24시간<span class="best">무료</span></td><td>1kg 50페소</td><td>5kg 150페소</td></tr>
+      <tr><th scope="row">한국인 비율</th><td>25%</td><td>약 20%</td><td>14%<span class="best">최저</span></td></tr>
+      <tr><th scope="row">주변</th><td>쇼핑몰 도보 5분</td><td>쇼핑몰 도보 3~5분<span class="best">가장 가까움</span></td><td>편의점 도보 10분</td></tr>
     </tbody>
   </table>
   </div>
@@ -282,7 +308,7 @@ footer{padding-block:1.6rem 0;color:var(--muted);font-size:.8rem}
         <dt class="sum">출국 전</dt><dd class="sum">3,890,000원</dd>
         <dt>현지 납부</dt><dd>42,400페소 ≈ 932,800원</dd>
       </dl>
-      <div class="grand"><span class="note">합계</span><b>4,822,800원</b></div>
+      <div class="grand"><span class="note">합계 <span class="best">최저</span></span><b>4,822,800원</b></div>
       <details><summary>현지 납부 내역</summary>
         <dl><dt>SSP</dt><dd>15,600</dd><dt>SSP E-Card</dt><dd>8,200</dd><dt>종합관리비</dt><dd>5,000</dd><dt>교재비</dt><dd>5,000</dd><dt>보증금 (환불)</dt><dd>6,000</dd><dt>공항 픽업</dt><dd>2,000</dd><dt>학생증</dt><dd>400</dd><dt>자물쇠 보증금</dt><dd>200</dd><dt>비자 연장비</dt><dd>0</dd></dl>
         <p class="note">에어컨은 1kW당 20페소로 따로 청구됩니다.</p>
@@ -313,7 +339,7 @@ footer{padding-block:1.6rem 0;color:var(--muted);font-size:.8rem}
         <dt class="sum">출국 전</dt><dd class="sum">4,376,000원</dd>
         <dt>현지 납부</dt><dd>48,400페소 ≈ 1,064,800원</dd>
       </dl>
-      <div class="grand"><span class="note">합계</span><b>5,440,800원</b></div>
+      <div class="grand"><span class="note">합계 <span class="best hi">최고</span></span><b>5,440,800원</b></div>
       <details><summary>현지 납부 내역</summary>
         <dl><dt>SSP</dt><dd>15,600</dd><dt>SSP E-Card</dt><dd>9,000</dd><dt>보증금 (환불)</dt><dd>6,000</dd><dt>관리비</dt><dd>4,000</dd><dt>전기세</dt><dd>4,000</dd><dt>교재비</dt><dd>4,000</dd><dt>공항 픽업</dt><dd>2,400</dd><dt>수도세</dt><dd>2,400</dd><dt>학생증</dt><dd>1,000</dd><dt>비자 연장비</dt><dd>0</dd></dl>
       </details>
@@ -376,7 +402,7 @@ footer{padding-block:1.6rem 0;color:var(--muted);font-size:.8rem}
   <p class="lead">눌러서 펼치면 커리큘럼, 2인실·헬스장·시설·식사 사진, 리모델링, 후기가 나옵니다. 사진은 누르면 크게 보입니다.</p>
 
 <details class="school fe" id="fella">
-  <summary><div><div class="eyebrow">Talamban · 1,500평 캠퍼스</div><h3 class="name">잉글리쉬펠라 1캠퍼스</h3></div></summary>
+  <summary><div class="sumhead"><img src="img/fella/main.jpg" alt="" loading="lazy"><div><div class="eyebrow">Talamban · 1,500평 캠퍼스</div><h3 class="name">잉글리쉬펠라 1캠퍼스</h3></div></div></summary>
   <div class="school-body">
     <div class="facts"><span class="chip">스파르타 전용 (2024.3~)</span><span class="chip">IDP IELTS 시험센터</span><span class="chip">정원 100명</span><span class="chip">일본 30 · 대만 30 · 한국 25%</span></div>
     <div class="two">
@@ -448,7 +474,7 @@ footer{padding-block:1.6rem 0;color:var(--muted);font-size:.8rem}
 </details>
 
 <details class="school ce" id="cella">
-  <summary><div><div class="eyebrow">Talamban 초입 · 빌딩형</div><h3 class="name">셀라 유니 (스파르타) 캠퍼스</h3></div></summary>
+  <summary><div class="sumhead"><img src="img/cella/main.jpg" alt="" loading="lazy"><div><div class="eyebrow">Talamban 초입 · 빌딩형</div><h3 class="name">셀라 유니 (스파르타) 캠퍼스</h3></div></div></summary>
   <div class="school-body">
     <div class="facts"><span class="chip">스파르타</span><span class="chip">대학 부설 수료증</span><span class="chip">IELTS 시험장</span><span class="chip">정원 100 + 외부 50명</span><span class="chip">대만 35 · 한·일·중 각 20%</span></div>
     <div class="two">
@@ -518,7 +544,7 @@ footer{padding-block:1.6rem 0;color:var(--muted);font-size:.8rem}
 </details>
 
 <details class="school ev" id="ev">
-  <summary><div><div class="eyebrow">Talamban · 2004년 설립</div><h3 class="name">EV 메인 캠퍼스</h3></div></summary>
+  <summary><div class="sumhead"><img src="img/ev/main.jpg" alt="" loading="lazy"><div><div class="eyebrow">Talamban · 2004년 설립</div><h3 class="name">EV 메인 캠퍼스</h3></div></div></summary>
   <div class="school-body">
     <div class="facts"><span class="chip">세미 / 스파르타 선택</span><span class="chip">IELTS 공식 시험센터</span><span class="chip">정원 350명</span><span class="chip">일본 30 · 대만 25 · 한국 14%</span></div>
     <div class="two">
